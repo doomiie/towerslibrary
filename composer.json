@@ -6,11 +6,14 @@
             "Codebois\\Towerslibrary\\": "src/"
         }
     },
+    "license": "proprietary",
+
     "authors": [
         {
             "name": "Jerzy",
             "email": "jerzy@zientkowski.pl"
         }
     ],
+    "minimum-stability": "dev",
     "require": {}
 }
