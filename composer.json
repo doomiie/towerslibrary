@@ -3,6 +3,11 @@
     "description": "Library for Towers Project",
     "autoload": {
         "psr-4": {
+            "Database\\": "src/Database",
+            "GPS\\": "src/GPS",
+            "LOG\\": "src/LOG",
+            "PageNavigation\\": "src/PageNavigation",
+            "TOWERS\\": "src/TOWERS",
             "UserManagement\\": "src/UserManagement"
         }
     },
