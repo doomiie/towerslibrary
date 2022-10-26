@@ -1,0 +1,16 @@
+{
+    "name": "codebois/towerslibrary",
+    "description": "Library for Towers Project",
+    "autoload": {
+        "psr-4": {
+            "Codebois\\Towerslibrary\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jerzy",
+            "email": "jerzy@zientkowski.pl"
+        }
+    ],
+    "require": {}
+}
