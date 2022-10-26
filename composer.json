@@ -3,7 +3,8 @@
     "description": "Library for Towers Project",
     "autoload": {
         "psr-4": {
-            "Codebois\\Towerslibrary\\": "src/"
+            //"Codebois\\Towerslibrary\\": "src/",
+            "UserManagement\\": "src/UserManagement"
         }
     },
     "license": "proprietary",
