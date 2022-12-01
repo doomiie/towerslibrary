@@ -20,6 +20,12 @@ namespace UserManagement;
 class Project extends \Database\DBObject
 {
     protected $tableName = "project";
+    protected $parentClass = "organization";
+    protected $childrenClassArray = array('tower','email');
+
+    public $spreadsheetID;
+    public $spreadsheetLink;
+
     public function print()
     {
         parent::print();
@@ -35,5 +41,40 @@ class Project extends \Database\DBObject
         $project = new Organization((int)$projectID);
         printf("<hr> THIS project belongs to organization: %s from %s<br>\n", $project->name, $projectID);
         $project->print();
+    }
+
+    /**
+     * [Description for getAllTowers]
+     *
+     * @return array lista wszystkich wież dla projektu
+     * 
+     */
+    public function getAllTowers()
+    {
+        $towerArray = [];
+        $towerList = (new Tower())->list();
+        foreach ($towerList as $key => $value) {
+            # code...
+            $tower = new Tower((int)$value['id']);
+            if(-1 === $tower->matchUs($tower, $this))
+            {
+                continue;
+            }
+            // znaleziona wieża
+            $towerArray[] = $tower;
+        }
+        return $towerArray;
+    }
+
+    public function getProjectOrganization()
+    {
+        $row = $this->checkMeIn("project_organization");
+        if (is_string($row)) {
+            return null;
+        } else {
+            $organizationID = (int)$row[0]['organization_id'];
+            $organization = new Organization((int)$organizationID);
+            return $organization;
+        }
     }
 }

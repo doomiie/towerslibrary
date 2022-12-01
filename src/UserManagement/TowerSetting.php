@@ -60,7 +60,8 @@ class TowerSetting extends \Database\DBObject
      *
      * @var [type]
      */
-    public $lastSeen;
+    //public $lastSeen;
+    // tego nie powinno być w tower setting!
     
     /**
      * id wieży, której dotyczy setting
@@ -72,6 +73,8 @@ class TowerSetting extends \Database\DBObject
     // Patrz opisy pól w wieży
     public $startLat;
     public $startLng;
+
+    public $gracePeriod;    // 15 minut
 
     public function __construct($id = null, $tower = null)
     {

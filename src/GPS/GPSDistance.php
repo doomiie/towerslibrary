@@ -52,19 +52,20 @@ class GPSDistance
 
     public static function calculateDistance4($lat1, $lon1, $lat2, $lon2)
     {
+        //error_log(sprintf("Liczę dystans\n dla %s, %s, %s, %s", $lat1, $lon1, $lat2, $lon2));
         if (!GPSValidate::isGeoValid('latitude', $lat1)) {
-            return 0;
+            return -1;
         }
         if (!GPSValidate::isGeoValid('longitude', $lon1)) {
-            return 0;
+            return -2;
         }
         if (!GPSValidate::isGeoValid('latitude', $lat2)) {
-            return 0;
+            return -3;
         }
         if (!GPSValidate::isGeoValid('longitude', $lon2)) {
-            return 0;
+            return -4;
         }
-       // error_log(sprintf("Liczę dystans\n dla %s, %s, %s, %s", round($lat1,5), round($lon1,5), round($lat2,5), round($lon2,5)));
+       //error_log(sprintf("Liczę dystans\n dla %s, %s, %s, %s", round($lat1,5), round($lon1,5), round($lat2,5), round($lon2,5)));
         return self::twoPoints(round($lat1,6),round($lon1,6),round($lat2,6),round($lon2,6));
     }
 
@@ -95,16 +96,17 @@ class GPSDistance
         //Haversine Formula
         $dlong = $long2 - $long1;
         $dlati = $lat2 - $lat1;
-
+        //error_log(sprintf("DLONG %s, DLAT %s", $dlong, $dlati));
+        
         $val = pow(sin($dlati / 2), 2) + cos($lat1) * cos($lat2) * pow(sin($dlong / 2), 2);
-
+        
         $res = 2 * asin(sqrt($val));
+        //error_log(sprintf("VAL %s", $res));
 
         $radius = 3958.756;
 
         $kms = 1.609344;
-        $dist = round(($res * $radius * $kms),2);    // dystnas w kilometrach 
-        //error_log(sprintf("TwoPoints: dla %s", $dist));
+        $dist = round(($res * $radius * $kms * 1000),2);    // dystnas w metrach
         return $dist;
     }
     // This code is contributed by akash1295

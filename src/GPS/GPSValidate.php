@@ -43,6 +43,7 @@ public static function isGeoValid($type, $value)
     if (preg_match($pattern, $value)) {
         return true;
     } 
+    //error_log(sprintf("Bad isGeoValid for %s, %s, ",$type, $value));
     return false;
 }
 }

@@ -4,7 +4,7 @@ namespace PageNavigation;
 
 class MetaHeader
 {
-    public static function printMeta($title="CodeBois::Towers v2")
+    public static function printMeta($title="")
     {
         // <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         //<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/font-awesome.css" rel="stylesheet"  type='text/css'>
@@ -16,13 +16,14 @@ class MetaHeader
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="Jerzy Zientkowski 2022" />
-        <title>%s</title>
+        <title>%s::CodeBois::Towers v2</title>
         <!-- css styling -->
         <link href="assets/css/fontawesome.css" rel="stylesheet">
         <link href="assets/css/brands.css" rel="stylesheet">
         <link href="assets/css/solid.css" rel="stylesheet">
         
         <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/heartrate.css" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css"/>
         
         <!-- JQUERY needs to be the first script -->

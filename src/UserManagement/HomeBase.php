@@ -26,15 +26,23 @@ use GPS\GPSMaps;
 class HomeBase extends \Database\DBObject
 {
     protected $tableName = "homebase";
+    protected $parentClass = "project";
     // field names should be THE SAME as database names!
     public $lat;
     public $lng;
     public $adres;
+
+    /**
+     * Domyślne, jeśli wieża przechodzi do projektu, ten radius jest wpisywany (chyba że jest -1, to wtedy zostaje wieży radius)
+     *
+     * @var [type]
+     */
+    public $detectionRadius = 100;
     
     
-    public function getGoogleMapsLink()
+    public function getGoogleMapsLink($lat = "lat", $lng = "lng", $title="")
     {
-        return (new GPSMaps)->getGoogleMapsLink($this->lat, $this->lng);
+        return (new GPSMaps)->getGoogleMapsLink($this->lat, $this->lng, $this->name);
     }
 
     public function print()

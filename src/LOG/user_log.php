@@ -18,16 +18,18 @@
  */
 namespace LOG;
 
-class DBLog extends \Database\DBObject
+class user_log extends \Database\DBObject
 {
-    protected $tableName = "log";
+    protected $tableName = "user_log";
     public $message;
 
-    public function log($message, $name = "Name is not set")
+    public function __construct($message, $object)
     {
-        //printf("describe is [%s]<br>\n", $this->message));
-        $this->name = $name;
+        parent::__construct();
+        //error_log("Starting loggingn");
+        $this->name = $object->getClassName();
         $this->message = $message;
+        //printf("TUTAJ! %s, %s", $object->getClassName(), $message);
         return $this->create();
     }
 }

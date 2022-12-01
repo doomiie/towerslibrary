@@ -25,10 +25,19 @@ namespace PageNavigation;
 class PageButton
 {
 
+    /**
+     * Dodaje button do REMOVE!!
+     *
+     * @param mixed $className
+     * @param mixed $id
+     * 
+     * @return [type]
+     * 
+     */
     public static function addButtonDeleteItemInTable($className, $id)
     {
-        printf("<button class='btn btn-warning-soft' id='deleteButton'  onClick=remove('%s','%s')>
-        <i class='feather text-warning' data-feather='trash-2'></i>
+        printf("<button class='btn btn-danger' id='deleteButton'  onClick=remove('%s','%s')>
+        <i class='feather text-white bg-danger' data-feather='trash-2'></i>
         </button>", $className, $id);
     }    
     public static function addButtonViewItemInTable($className, $id)
@@ -39,9 +48,18 @@ class PageButton
     }
     public static function addButtonEditItemInTable($className, $id)
     {
-        $class = strtolower(end(explode("_",$className)));
+        $class = explode("_",$className);
+        $class = strtolower(end($class));
         printf("<button class='btn btn-warning-soft' id='editButton'  onClick=edit('%s','%s')>
         <i class='feather text-warning' data-feather='edit'></i>
+        </button>", $class, $id);
+    } 
+    public static function addButtonMailItemInTable($className, $id)
+    {
+        $class = explode("_",$className);
+        $class = strtolower(end($class));
+        printf("<button class='btn btn-warning-soft' id='mailButton'  onClick=mail('%s','%s')>
+        <i class='feather text-warning' data-feather='mail'></i>
         </button>", $class, $id);
     }
 

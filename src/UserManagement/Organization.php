@@ -24,5 +24,6 @@ namespace UserManagement;
 class Organization extends \Database\DBObject
 {
     protected $tableName = "organization";
+    protected $childrenClassArray = array('project');
     
 }

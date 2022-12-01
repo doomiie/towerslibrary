@@ -121,7 +121,7 @@ class SideNav
         $sectionUID = self::sectionHeaderCollapsed("Zarządzanie", 'list');
         
         self::sectionCollapseOpen($sectionUID);
-        self::simpleLink("organization-manage.php", "Organizacje");
+        self::simpleLink("manage-organization.php", "Organizacje");
         self::simpleLink("manage-project.php", "Projekty");
         self::simpleLink("manage-homebase.php", "Bazy");
         self::simpleLink("manage-tower.php", "Wieże");
@@ -130,6 +130,7 @@ class SideNav
         
         self::simpleLink("manage-user.php", "Użytkownicy");
         self::simpleLink("manage-priviledge.php", "Dostępy");
+        self::simpleLink("manage-emails.php", "Wysyłka raportów");
         self::simpleLink("user-management-user-add.php", "Użytkownicy, dodaj");
         self::simpleLink("user-management-priviledges-list.php", "Dostępy");
         self::sectionCollapseClose($sectionUID);       
@@ -154,9 +155,9 @@ class SideNav
         self::colorLink("#!","PRIVS: ".  json_encode($user->listPriviledges()), "text-success small");
         self::colorLink("#!","PR Level: ". $pageProtected . $user->getConstantName("PageNavigation\PageProtection", $pageProtected), "text-success small");
         self::colorLink("#!","PR access: ". json_encode($pageProtectionArray), "text-success small");
-        self::simpleLink("test2.php", "Test");
-        self::simpleLink("user-management-priviledges-list.php", "Zarządzanie dostępami");
-        self::simpleLink("#!", "Dodaj projekt");
+       // self::simpleLink("test2.php", "Test");
+        //self::simpleLink("user-management-priviledges-list.php", "Zarządzanie dostępami");
+        //self::simpleLink("#!", "Dodaj projekt");
         self::sectionCollapseClose($sectionUID); 
     }
 }
