@@ -9,7 +9,7 @@
             "PageNavigation\\": "src/PageNavigation",
             "TOWERS\\": "src/TOWERS",
             "GoogleSheetTower\\": "src/GoogleSheetTower",
-            "UserManagement\\": "src/UserManagement"
+            "UserManagement\\": "src/UserManagement",
             "MessagingSystem\\": "src/MessagingSystem"
         }
     },
