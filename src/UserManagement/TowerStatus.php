@@ -215,6 +215,12 @@ class TowerStatus extends \Database\DBObject
         return $arrayText;
     }
 
+    public function printStatusAlert($tower)
+    {
+        if(!$this->flagLastSeen && !$this->flagMoved && !$this->flagMovedStart) return null;
+        return $this->printStatus($tower);
+    }
+
     public function resetAllFlags()
     {
         //$this->print();

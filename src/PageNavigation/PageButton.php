@@ -39,6 +39,21 @@ class PageButton
         printf("<button class='btn btn-danger' id='deleteButton'  onClick=remove('%s','%s')>
         <i class='feather text-white bg-danger' data-feather='trash-2'></i>
         </button>", $className, $id);
+    }  
+
+    public static function addButtonTimeLine($className, $id)
+    {
+        printf("<a class='btn btn-warning-soft' id='viewButton'  href='single-tower-timeline.php?className=%s&id=%s'>
+        <i class='feather text-warning' data-feather='eye'></i>
+        </a>", $className, $id);
+    }
+    public static function addButtonInstallItemInTable($className, $id)
+    {
+        $classNameFull = str_replace("_",'\\', $className); 
+        if(!method_exists($classNameFull, "install")) { return -1; }
+        printf("<button class='btn btn-primary' id='deleteButton'  onClick=install('%s','%s')>
+        <i class='feather text-white' data-feather='eye'></i>
+        </button>", $className, $id);
     }    
     public static function addButtonViewItemInTable($className, $id)
     {

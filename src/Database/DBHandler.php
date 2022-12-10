@@ -23,7 +23,8 @@ use Exception;
 
 class DBHandler
 {
-    protected  $handle;
+    protected $handle;
+    protected static $dbHandle = false;
 
     public function getHandle()
     {
@@ -32,6 +33,13 @@ class DBHandler
 
     public function init()
     {
+        if(DBHandler::$dbHandle === false)
+        {
+            DBHandler::$dbHandle = mysqli_connect("localhost", "phpmyadmin","sevenof9","tools4teams_towers");
+            mysqli_set_charset(DBHandler::$dbHandle, "utf8mb4");                
+        }
+        $this->handle = DBHandler::$dbHandle;
+        return DBHandler::$dbHandle;
 
         $this->handle = mysqli_connect("localhost", "phpmyadmin","sevenof9","tools4teams_towers");
 
@@ -39,7 +47,7 @@ class DBHandler
 			throw new Exception(mysqli_connect_error());
 			return null;
 		}
-    mysqli_set_charset($this->handle, "utf8mb4");
+    mysqli_set_charset($this->handle, "utf8mb4");    
     return $this->handle;
 
     }

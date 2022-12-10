@@ -96,10 +96,16 @@ class PagePiece
             <div class="justify-content-between d-flex">
             
             <div class="ms-2">
-                <button class="btn btn-primary  btn-sm" onClick="bondHomeBaseProject(%s,%s, \'%s\');  return false;">%s</button>
+                <button class="btn btn-primary  btn-sm" onClick="bondHomeBaseProject(\'%s\',\'%s\', \'%s\');  return false;">%s</button>
             </div>
             </div>
-        </div>', $homeBase->linkToSinglePage(), $homeBase->name, $homeBase->id, $homeBase->getParent()->linkToSinglePage(), $homeBase->getParent()->name,  $homeBase->name, $homeBase->id, $project->id, $operation, $operation);
+        </div>', $homeBase->linkToSinglePage(), 
+        $homeBase->name, 
+        $homeBase->id, 
+        $homeBase->getParent()->linkToSinglePage(), 
+        $homeBase->getParent()->name,  
+        
+        $homeBase->id, $project->id, $operation, $operation);
     }
     public function shortBondProjectOrganization($project, $organization, $operation)
     {

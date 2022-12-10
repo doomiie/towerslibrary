@@ -133,6 +133,7 @@ class SideNav
         self::simpleLink("manage-emails.php", "Wysyłka raportów");
         self::simpleLink("user-management-user-add.php", "Użytkownicy, dodaj");
         self::simpleLink("user-management-priviledges-list.php", "Dostępy");
+        self::simpleLink("manage-log.php", "Logi systemowe");
         self::sectionCollapseClose($sectionUID);       
         
     }

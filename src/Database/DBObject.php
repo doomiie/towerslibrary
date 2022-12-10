@@ -98,17 +98,31 @@ class DBObject
         $table = $this->tableName;
         if (is_int($id)) {
             $sql = "select * from $table where id = '$id'";
+            $row = $this->dbHandler->getRowSql($sql);
+            if (empty($row)) {
+                return 0;
+            }
+            $row = $row[0];
         }
         if (is_string($id)) {
             $sql = "select * from $table where name = '$id'";
+            $row = $this->dbHandler->getRowSql($sql);
+            if (empty($row)) {
+                return 0;
+            }
+            $row = $row[0];
+        }
+        if(is_array($id))
+        {
+            error_log(sprintf("[%s] loading array: %s\n", __FUNCTION__, json_encode($id)));
+
+            $row = $id;
+            //$this->loadArray($id);
         }
         // what if there's no data or error?
-        $row = $this->dbHandler->getRowSql($sql);
-        //error_log(sprintf("[%s] loading SQL: %s\n", __FUNCTION__, $sql));
-        if (empty($row)) {
-            return 0;
-        }
-        $row = $row[0];
+        // $row = $this->dbHandler->getRowSql($sql);
+        
+        
         //echo "Loading" . json_encode($row);
 
         $fieldArray = $this->obj2array($this);
@@ -228,12 +242,26 @@ class DBObject
      */
     public function deleteMe()
     {
+        // znajdź powiązania!
+        $parent = $this->getParent();
+        if($parent != null)
+        {
+            $myName =  (new \ReflectionClass($this))->getShortName();
+            $itName = (new \ReflectionClass($parent))->getShortName();
+            // find, if there's a table for us
+            $tableName = strtolower($myName . "_" . $itName);
+            $sql = sprintf("DELETE from %s where %s_id = %s;", $tableName, strtolower($myName), $this->id);
+        //    error_log("DELETE SQL: !" . $sql);
+            $row = $this->dbHandler->getRowSql($sql);
+
+        }
+        //error_log("Deleting!");
         
         $sql = "DELETE from $this->tableName where id = $this->id;";
         $this->log("Deleting myself from $this->tableName, id = $this->id");
         $this->log("SQL : " . $sql);
         $row = $this->dbHandler->getRowSql($sql);
-        return 0;
+        return count($row);
     }
     /**
      * Funkcja sprawdza, czy dwa obiekty mają bazę danych i są w niej połączone po ID
@@ -381,43 +409,55 @@ class DBObject
         return get_class($this);
     }
 
-    public function list($active = 'true')
+    public function list($active = 'true', $where = '')
     {
         $sql = "SELECT * from $this->tableName";
-        if ($active == "true") {
+        if ($active == "true" && $where == '') {
             $sql = "SELECT * from $this->tableName where active = true;";
         }
+        if ($active == "true" && $where != '') {
+            $sql = "SELECT * from $this->tableName where $where AND active = true;";
+        }
+
 
         $row = $this->dbHandler->getRowSql($sql);
         //printf("ROW: %s<br>\n", json_encode($row));
         return $row;
     }
 
+
     /**
      * Funkcja zwraca listę obiektów danej klasy
+     * Uwaga - ponieważ i tak ładujemy do row[], zmieniam na funkcję ładującą z Array właśnie
+     
      * @param string $active
+     * @param string where BEZ where i bez spacji
      * 
-     * @return [type]
+     * @return mixed objectList lista obiektów
      * 
      */
-    public function objectList($active = 'true', $where = "")
+    public function objectList($active = 'true', $where = "", $limit = "")
     {
-        $sql = "SELECT * from $this->tableName " . $where;
+        $objectList = null;
+        $sql = "SELECT * from $this->tableName " . $where . " " . $limit;
         if ($active == "true" && $where != "") {
-            $sql = "SELECT * from $this->tableName where $where and active = true;";
+            $sql = "SELECT * from $this->tableName where $where and active = true  " . $limit;
         }
         else
         if ($active == "true" ) {
-            $sql = "SELECT * from $this->tableName where active = true;";
+            $sql = "SELECT * from $this->tableName where active = true " . $limit;
         }
         $row = $this->dbHandler->getRowSql($sql);
         //printf("ROW: %s<br>\n", json_encode($row));
+        //printf("SQL: %s<br>\n", json_encode($sql));
         foreach ($row as $key => $value) {
             # code...
-            //error_log(sprintf("TEST: %s\n", json_encode($value)));
+            error_log(sprintf("TEST key: %s\n", json_encode($key)));
             $class =  get_class($this);
-            $objectList[] = new $class((int)$value['id']);
+            //$objectList[] = new $class((int)$value['id']);
+            $objectList[] = new $class((Array)$value);
         }
+       // error_log(sprintf("objectList: %s\n", json_encode($objectList)));
         return $objectList;
     }
 
@@ -502,6 +542,8 @@ class DBObject
         //  $itName = (new \ReflectionClass($object))->getShortName();
         // find, if there's a table for us
         $tableName = strtolower($myName . "_" . $this->parentClass);
+        //$tableName = strtolower($this->tableName . "_" . $this->parentClass);
+        //printf("getParent table name is %s<br>", $tableName);
         $row = $this->checkMeIn($tableName);
         if (is_string($row)) {
             return null;
@@ -537,6 +579,7 @@ class DBObject
         }
         return $resultArray;
     }
+   
     // LOGGING functions here!
     public function log($message, $trace = false, $customFileName = false)
     {
@@ -563,7 +606,7 @@ class DBObject
 
     public function user_log($message)
     {
-        (new user_log($message, $this));
+           (new user_log($message, $this));
     }
   
 }

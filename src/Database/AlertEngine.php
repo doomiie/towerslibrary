@@ -17,6 +17,7 @@
 
 namespace Database;
 use UserManagement\TowerSetting;
+use Database\Alert;
 
 /**
  * Ta klasa zajmuje się ustalaniem alertów

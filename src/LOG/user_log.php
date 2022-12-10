@@ -23,13 +23,14 @@ class user_log extends \Database\DBObject
     protected $tableName = "user_log";
     public $message;
 
-    public function __construct($message, $object)
+    public function __construct($message=null, $object=null)
     {
         parent::__construct();
+        if(null===$message) { return -1;}
         //error_log("Starting loggingn");
         $this->name = $object->getClassName();
         $this->message = $message;
-        //printf("TUTAJ! %s, %s", $object->getClassName(), $message);
+        //printf("%s! %s, %s", __FUNCTION__, $object->getClassName(), $message);
         return $this->create();
     }
 }

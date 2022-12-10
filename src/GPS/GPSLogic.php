@@ -319,13 +319,14 @@ class GPSLogic
             return self::GPSLOGIC_NO_PROJECT_FOUND;
         }
         $project->load((int)$row[0]['project_id']);
-       // error_log(sprintf("Homebase lookup for %s, %s, ",$project->name, $tower->tower_nr));
+        //error_log(sprintf("Homebase lookup for %s, %s, ",$project->name, $tower->tower_nr));
         $homeBaseList = $project->checkMeIn("homebase_project");
         foreach ($homeBaseList as $key => $value) { // we take only FIRST homeBase!!!
             # odpal homeBase i sprawdź, czy wieża jest w home base
             $homeBase = new HomeBase((int)$value['homebase_id']);
-            //error_log(sprintf("Homebase is for %s, %s, ",$homeBase->id, json_encode($value)));
-            return 1000 * GPSDistance::getDistanceTwoObjects($homeBase, $gpso, __FUNCTION__);
+            $dist =  GPSDistance::getDistanceTwoObjects($homeBase, $gpso, __FUNCTION__);
+            //error_log(sprintf("Homebase is for %s, %s, ",$tower->tower_nr, $dist));
+            return $dist;
             
         }
     }  
@@ -372,15 +373,17 @@ class GPSLogic
     // FIXME Dokończyć tę funkcję
     public function runEmptyEngine()
     {
-        (new user_log("Starting runEmptyEngine", $this));
-        //$this->user_log("Starting runAll", $this);
+        
+        //(new user_log("Starting runEmptyEngine", $this));
+        //printf("Starting runAll");
         $towerList = (new Tower())->list();
         //error_log(sprintf("Tower list is %s<br>\n", json_encode($towerList)));
         foreach ($towerList as $key => $value) {
             # code...
-            //printf("Tower list  %s is %s<br>\n",$key, json_encode($value));
+            printf("Tower list  %s is %s<br>\n",$key, json_encode($value));
             $tower = new Tower((int)$value['id']);
-            $this->runEngineForTower2($tower, $empty = true);
+            $result = $this->runEngineForTower2($tower, $empty = true);
+            $tower->user_log(sprintf("[EMPTY]RunEngineForTower %s is %s", $tower->tower_nr, $result));
         }
     } // end of tunEmptyEngine()
     /**
@@ -549,8 +552,8 @@ class GPSLogic
         $tower->update();
 
         // uaktualnij wpisy w google sheets
-        $gsl = new GoogleSheetLogic();
-        $gsl->runTowerUpdate($tower);
+       // $gsl = new GoogleSheetLogic();
+       // $gsl->runTowerUpdate($tower);
         return 1;
 
 

@@ -107,6 +107,7 @@ class GPSDistance
 
         $kms = 1.609344;
         $dist = round(($res * $radius * $kms * 1000),2);    // dystnas w metrach
+        //$dist =($res * $radius * $kms * 1000);    // dystnas w metrach
         return $dist;
     }
     // This code is contributed by akash1295
